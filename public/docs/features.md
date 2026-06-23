@@ -1,0 +1,1 @@
+# Danh sách các tính năng của nền tảng

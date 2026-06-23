@@ -1,5 +1,17 @@
-import type { NextConfig } from "next"
+import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {}
+const isGithubActions = process.env.GITHUB_ACTIONS === "true";
+const repoName = "prismora";
 
-export default nextConfig
+const nextConfig: NextConfig = {
+  reactCompiler: false,
+  output: 'export', 
+  basePath: isGithubActions ? `/${repoName}` : undefined,
+  assetPrefix: isGithubActions ? `/${repoName}/` : undefined,
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+};
+
+export default nextConfig;
