@@ -22,16 +22,18 @@ export default function DocsPage() {
   const { name, avatarUrl, initializeUser } = useUserStore();
   const [selectedFile, setSelectedFile] = useState<string>(DOCS_LIST[0].id);
   const [content, setContent] = useState<string>("");
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
   useEffect(() => {
     initializeUser((url) => console.log("Redirect to", url));
   }, [initializeUser]);
 
   useEffect(() => {
-    fetch(`/docs/${selectedFile}`)
+    fetch(`${basePath}/docs/${selectedFile}`)
       .then((res) => res.text())
-      .then((text) => setContent(text));
-  }, [selectedFile]);
+      .then((text) => setContent(text))
+      .catch((err) => console.error("Error fetching doc:", err));
+  }, [selectedFile, basePath]);
 
   return (
     <div className="flex h-screen gap-6 p-6 bg-background">
