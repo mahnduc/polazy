@@ -16,7 +16,6 @@ interface NavigationItem {
 export default function ControlPanel() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>("menu");
-  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
   
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -190,7 +189,7 @@ export default function ControlPanel() {
 
               <div className="space-y-3">
                 <button
-                  onClick={()  => router.push(`${basePath}/chat`)}
+                  onClick={()  => router.push("/chat")}
                   className="w-full flex items-center justify-between rounded-lg border border-border bg-card text-card-foreground p-3 font-medium shadow-sm hover:bg-muted hover:border-border/80 transition-all duration-200 text-left group"
                 >
                   <div className="space-y-0.5">
@@ -224,7 +223,7 @@ export default function ControlPanel() {
                   size="sm"
                   variant="outline"
                   className="gap-2 text-xs"
-                  onClick={() => router.push(`${basePath}/map`)}
+                  onClick={() => router.push("/map")}
                 >
                   <Command className="h-3.5 w-3.5" /> Quản lý
                 </Button>
