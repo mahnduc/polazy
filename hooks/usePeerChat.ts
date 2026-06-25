@@ -1,49 +1,61 @@
-import { useState, useEffect, useRef } from "react"
-import Peer, { DataConnection } from "peerjs"
+import { useState, useEffect } from "react";
+import { DataConnection } from "peerjs";
+import { useInitPeer } from "@/hooks/useInitPeer";
 
 export function usePeerChat() {
-  const [peerId, setPeerId] = useState<string>("")
-  const [connection, setConnection] = useState<DataConnection | null>(null)
-  const [messages, setMessages] = useState<{ sender: string, text: string }[]>([])
-  const peerRef = useRef<Peer | null>(null)
+  const { peer, state: peerBusState } = useInitPeer();
+  
+  const peerId = peerBusState.peerId || ""; 
+  
+  const [connection, setConnection] = useState<DataConnection | null>(null);
+  const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
 
   useEffect(() => {
-    const newPeer = new Peer()
-		console.log("[usePeerChat]: Khởi tạo peer")
-    peerRef.current = newPeer
+    if (!peer) return;
 
-    newPeer.on("open", (id) => setPeerId(id))
-    
-    newPeer.on("connection", (c) => {
-      setConnection(c)
+    console.log("[usePeerChat]: Đang lắng nghe kết nối chat từ hệ thống Peer tập trung");
+
+    const handleConnection = (c: DataConnection) => {
+      setConnection(c);
+      
       c.on("data", (data) => {
-        setMessages((prev) => [...prev, { sender: "peer", text: String(data) }])
-      })
-    })
+        setMessages((prev) => [...prev, { sender: "peer", text: String(data) }]);
+      });
+    };
 
-    return () => { 
-      console.log("[usePeerChat]: Hủy peer")
-      newPeer.destroy() 
-    }
-  }, [])
+    peer.on("connection", handleConnection);
 
-  // Hàm kết nối tới đối phương
+    return () => {
+      console.log("[usePeerChat]: Ngừng lắng nghe sự kiện chat");
+      peer.off("connection", handleConnection);
+    };
+  }, [peer]);
+
   const connectToPeer = (remoteId: string) => {
-    if (!peerRef.current || !remoteId) return
-    const c = peerRef.current.connect(remoteId)
-    setConnection(c)
+    if (!peer || !remoteId) return;
+    
+    console.log(`[usePeerChat]: Đang chủ động kết nối tới ${remoteId}`);
+    const c = peer.connect(remoteId);
+    setConnection(c);
+    
     c.on("data", (data) => {
-      setMessages((prev) => [...prev, { sender: "peer", text: String(data) }])
-    })
-  }
+      setMessages((prev) => [...prev, { sender: "peer", text: String(data) }]);
+    });
+  };
 
-  // Hàm gửi tin nhắn
   const sendMessage = (text: string) => {
     if (connection) {
-      connection.send(text)
-      setMessages((prev) => [...prev, { sender: "me", text }])
+      connection.send(text);
+      setMessages((prev) => [...prev, { sender: "me", text }]);
     }
-  }
+  };
 
-  return { peerId, connection, messages, connectToPeer, sendMessage }
+  return { 
+    peerId, 
+    connection, 
+    messages, 
+    connectToPeer, 
+    sendMessage,
+    isPeerConnected: peerBusState.isConnected
+  };
 }

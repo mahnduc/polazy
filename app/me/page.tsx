@@ -3,16 +3,20 @@
 import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Download, Trash2, User } from "lucide-react"
+import { Download, Pencil, Trash2, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { useUserStore } from "@/store/profileStore"
 import Topbar from "@/components/common/Topbar"
+import { useLogs } from "@/hooks/useLogs"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import EditAvatarDialog from "@/components/common/EditAvatarDialog"
 
 const OPFS_FILE_NAME = "info.json"
 
 export default function Profile() {
   const router = useRouter()
+  const { logger } = useLogs()
 
   const username = useUserStore((state) => state.username)
   const tag = useUserStore((state) => state.tag)
@@ -45,6 +49,7 @@ export default function Profile() {
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
 
+      logger.info("Xuất bản dữ liệu sao lưu dữ liệu cá nhân thành công!")
       toast.success("Xuất file cấu hình danh tính sao lưu thành công!")
     } catch (err) {
       toast.error("Không tìm thấy dữ liệu cấu hình hợp lệ để xuất.")
@@ -84,35 +89,53 @@ export default function Profile() {
 
       <div className="flex-1 max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 p-6 md:p-12 items-start">
 
-        <div className="rounded-xl border bg-card p-6 flex flex-col items-center text-center space-y-4 shadow-sm">
+        <div className="w-full max-w-sm rounded-xl border bg-card text-card-foreground shadow-sm p-6">
+          <div className="flex flex-col items-center space-y-4">
 
-          <div className="relative h-24 w-24 overflow-hidden rounded-full border-2 border-primary/20 bg-background flex items-center justify-center shadow-inner">
-            {avatarUrl ? (
-              <Image
-                src={avatarUrl}
-                alt={displayName}
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            ) : (
-              <User className="h-8 w-8 text-muted-foreground" />
-            )}
-          </div>
+            <div className="relative w-full aspect-square rounded-lg border-2 border-border bg-muted overflow-hidden group">
+              {avatarUrl ? (
+                <Image
+                  src={avatarUrl}
+                  alt={displayName}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <User className="h-16 w-16 text-muted-foreground" />
+                </div>
+              )}
 
-          <div className="space-y-1.5 w-full">
-            <h2 className="text-lg font-bold tracking-tight text-foreground truncate px-1">
-              {displayName}
-            </h2>
-            {tag && (
-              <p className="text-xs font-mono text-muted-foreground/80 mb-2">
-                @{username}<span className="text-primary">{tag}</span>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="secondary"
+                    size="icon"
+                    className="absolute top-2 right-2 h-8 w-8 rounded-md bg-background/80 backdrop-blur-sm shadow-sm opacity-0 group-hover:opacity-100 transition-opacity hover:bg-background/80"
+                    aria-label="Edit avatar"
+                  >
+                    <Pencil className="h-4 w-4 text-primary" />
+                  </Button>
+                </DialogTrigger>
+
+                <DialogContent>
+                  <EditAvatarDialog />
+                </DialogContent>
+              </Dialog>
+            </div>
+
+            <div className="flex flex-col items-center space-y-1 text-center">
+              <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                {displayName}
+              </h2>
+              <p className="text-sm font-medium text-muted-foreground">
+                @{username}
+                <span className="ml-1 text-primary">{tag}</span>
               </p>
-            )}
+            </div>
           </div>
         </div>
 
-        {/* CỘT PHẢI: Các hành động nâng cao */}
         <div className="space-y-8 pt-2">
           <div className="space-y-4">
             <div className="flex flex-wrap gap-3 pt-1">
@@ -123,7 +146,7 @@ export default function Profile() {
                 disabled={isExporting || isDeleting}
               >
                 <Download className="h-3.5 w-3.5 text-muted-foreground" />
-                {isExporting ? "Đang trích xuất..." : "Sao lưu cấu hình JSON"}
+                {isExporting ? "Đang trích xuất..." : "Sao lưu cấu hình"}
               </Button>
 
               <Button
@@ -133,7 +156,7 @@ export default function Profile() {
                 disabled={isExporting || isDeleting}
               >
                 <Trash2 className="h-3.5 w-3.5" />
-                {isDeleting ? "Đang gỡ bỏ..." : "Xóa danh tính cục bộ"}
+                {isDeleting ? "Đang gỡ bỏ..." : "Xóa danh tính"}
               </Button>
             </div>
 

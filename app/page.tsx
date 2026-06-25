@@ -14,6 +14,7 @@ import {
 import { LocalResources } from "@/components/app/LocalResources"
 import ControlPanel from "@/components/app/ControlPanel"
 import Topbar from "@/components/common/Topbar"
+import { LogList } from "@/components/app/LogList"
 
 export default function Page() {
 
@@ -44,7 +45,7 @@ export default function Page() {
             <div className="flex-1 min-h-0 bg-card">
               <TabsContent value="logs" className="m-0 h-full w-full border-none outline-none">
                 <ScrollArea className="h-full w-full p-4 pt-2 font-mono text-xs text-muted-foreground">
-                {/**Tính năng đang chờ phát triển */}
+                  <LogList />
                 </ScrollArea>
               </TabsContent>
 
