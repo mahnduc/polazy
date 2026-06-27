@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
 import { useUserStore } from "@/store/profileStore"
 import Topbar from "@/components/common/Topbar"
-import { useLogs } from "@/hooks/useLogs"
+import { useLogs } from "@/hooks/log/useLogs"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import EditAvatarDialog from "@/components/common/EditAvatarDialog"
 

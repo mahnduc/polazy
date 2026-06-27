@@ -1,6 +1,6 @@
 "use client";
 
-import { useLogs } from "@/hooks/useLogs";
+import { useLogs } from "@/hooks/log/useLogs";
 import { cn } from "@/lib/utils";
 
 export function LogList() {

@@ -21,6 +21,10 @@ const API_SECTION = [
   { id: "log-bus.md", title: "LogBus" },
 ];
 
+const FOLDER_STRUCTURE = [
+  { id: "p2p.md", title: "p2p"}
+]
+
 export default function DocsPage() {
   const router = useRouter();
   const { nickname, avatarUrl } = useUserStore();
@@ -95,6 +99,26 @@ export default function DocsPage() {
                       }`}
                   >
                     {api.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-2 px-3">
+                API References
+              </h4>
+              <div className="space-y-0.5">
+                {FOLDER_STRUCTURE.map((i) => (
+                  <button
+                    key={i.id}
+                    onClick={() => setSelectedFile(i.id)}
+                    className={`block w-full text-left px-3 py-1.5 rounded-lg transition-colors text-xs ${selectedFile === i.id
+                      ? "bg-primary/10 text-primary font-bold"
+                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                      }`}
+                  >
+                    {i.title}
                   </button>
                 ))}
               </div>

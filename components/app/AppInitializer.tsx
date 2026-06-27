@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { useUserStore } from "@/store/profileStore";
-import { useLogs } from "@/hooks/useLogs";
-import { useInitPeer } from "@/hooks/useInitPeer";
+import { useLogs } from "@/hooks/log/useLogs";
+import { useInitPeer } from "@/hooks/p2p/useInitPeer";
 
 export function AppInitializer({
   children,

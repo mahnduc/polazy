@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dices, Loader2, Save, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { useLogs } from "@/hooks/useLogs";
+import { useLogs } from "@/hooks/log/useLogs";
 import { UserInfo } from "@/types/user-info.type";
 
 const DICEBEAR_STYLES = [

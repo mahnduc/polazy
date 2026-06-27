@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore, useCallback, useMemo } from "react";
-import { logBus } from "@/lib/log/logBus";
+import { logBus } from "@/hooks/log/logBus";
 
 const EMPTY_ARRAY: [] = [];
 

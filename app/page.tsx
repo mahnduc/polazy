@@ -1,6 +1,6 @@
 "use client"
 
-import { useUserStore } from "@/store/profileStore" // Thêm import hook của store
+import { useUserStore } from "@/store/profileStore"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {
@@ -66,7 +66,15 @@ export default function Page() {
           </Tabs>
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle
+          withHandle
+          className="w-[3px] transition-all duration-500 relative
+          bg-gradient-to-b from-blue-600/30 via-sky-400/50 to-blue-600/30
+          animate-pulse 
+          shadow-[0_0_12px_rgba(56,189,248,0.4)]
+          after:absolute after:inset-y-0 after:-left-1.5 after:-right-1.5 after:cursor-col-resize
+          border-none outline-none"
+        />
 
         <ResizablePanel defaultSize={5} minSize={5} className="max-w-[57px] min-w-[57px]">
           <div className="h-full flex flex-col bg-background">
