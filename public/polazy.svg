@@ -1,0 +1,46 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1200 220"
+    width="1200"
+    height="220">
+
+    <defs>
+        <linearGradient id="textGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="25%" stop-color="#a5f3fc"/>
+            <stop offset="55%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#014d7a"/>
+        </linearGradient>
+
+        <filter id="textGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow
+                dx="0"
+                dy="-3"
+                stdDeviation="2"
+                flood-color="#ffffff"
+                flood-opacity="0.9"/>
+
+            <feDropShadow
+                dx="0"
+                dy="3"
+                stdDeviation="5"
+                flood-color="#0284c7"
+                flood-opacity="0.3"/>
+        </filter>
+    </defs>
+
+    <text
+        x="50%"
+        y="50%"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-family="Arial Black, Gadget, sans-serif"
+        font-size="120"
+        font-weight="900"
+        letter-spacing="4"
+        fill="url(#textGradient)"
+        filter="url(#textGlow)">
+        POLAZY
+    </text>
+
+</svg>
